@@ -4,7 +4,7 @@ import glob
 import os
 import re
 
-pattern = re.compile("^\s*class\s*(\w+)\s*:\s*public\s*(\w+)\s*")
+pattern = re.compile("\s*class\s+(\w+)\s*:\s*public\s+(\w+)\s*({\s*}?)?")
 
 hierarchy = {}
 subclasses = set()
@@ -76,5 +76,9 @@ def print_leaf_node(node_name):
 print "Leaf classes (organized by root):\n"
 for root_class in root_classes:
 	print "Leaf classes of " + root_class
-	traverse_leaves(root_class, lambda node_name: print_leaf_node(node_name));
+	leaves = []
+	traverse_leaves(root_class, lambda node_name: leaves.append(node_name));
+	leaves = sorted(leaves, key=str.lower)
+	for leaf in leaves:
+		print "-" + leaf
 
